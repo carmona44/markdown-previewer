@@ -6,7 +6,7 @@ class App extends Component {
     return (
       <div className="App">
         <Editor />
-        <Preview className="preview"/>
+        <Preview />
       </div>
     );
   }
@@ -18,8 +18,9 @@ class Editor extends Component {
   }
   render(){
     return (
-        <div className="editor">
+        <div className="editorClass">
           <Toolbar title="Editor" clase="fas fa-code"/>
+          <textarea id="editor" type="text"></textarea>
         </div>
     );
   }
@@ -31,8 +32,9 @@ class Preview extends Component {
   }
   render (){
     return (
-        <div className="preview">
+        <div className="previewClass">
           <Toolbar title="Vista previa" clase="far fa-eye"/>
+          <textarea id="editor" type="text" disabled="true"></textarea>
         </div>
     );
   }
