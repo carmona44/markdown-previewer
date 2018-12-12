@@ -56,9 +56,13 @@ class App extends Component {
   constructor(props){
      super(props);
      this.state = {
-         markdown: placeholder
+         markdown: placeholder,
+         maxEditor: false,
+         maxPreview: false
      };
      this.handleMarkdownChange = this.handleMarkdownChange.bind(this);
+     this.maximizeEditor = this.maximizeEditor.bind(this);
+     this.maximizePreview = this.maximizePreview.bind(this);
   }
 
   handleMarkdownChange(event){
@@ -67,11 +71,26 @@ class App extends Component {
       });
   }
 
+  maximizeEditor(){
+    this.setState({
+       maxEditor: !this.state.maxEditor
+    });
+  }
+
+  maximizePreview(){
+    this.setState({
+        maxPreview: !this.state.maxPreview
+    });
+  }
+
   render() {
+    const arrClases = this.state.maxEditor ? ['maximize', 'hide'] :
+        this.state.maxPreview ? ['hide', 'maximize'] : ['editorClass', 'previewClass'];
+
     return (
       <div className="App">
-        <Editor markdown={this.state.markdown} onChange={this.handleMarkdownChange}/>
-        <Preview markdown={this.state.markdown}/>
+        <Editor clase={arrClases[0]} markdown={this.state.markdown} onChange={this.handleMarkdownChange} max={this.maximizeEditor}/>
+        <Preview clase={arrClases[1]} markdown={this.state.markdown} max={this.maximizePreview}/>
       </div>
     );
   }
@@ -79,8 +98,8 @@ class App extends Component {
 
 const Editor = (props) => {
     return (
-        <div className="editorClass">
-          <Toolbar title="Editor" clase="fas fa-code"/>
+        <div className={props.clase}>
+          <Toolbar title="Editor" icono="fas fa-code" max={props.max}/>
           <textarea id="editor" type="text" value={props.markdown} onChange={props.onChange} spellCheck="false"/>
         </div>
     );
@@ -88,8 +107,8 @@ const Editor = (props) => {
 
 const Preview = (props) => {
     return (
-       <div className="previewClass">
-         <Toolbar title="Vista previa" clase="far fa-eye"/>
+       <div className={props.clase}>
+         <Toolbar title="Vista previa" icono="far fa-eye" max={props.max}/>
          <div className="preview-style" dangerouslySetInnerHTML={{__html: myMarked(props.markdown, { renderer: renderer })}}></div>
        </div>
     );
@@ -100,15 +119,16 @@ class Toolbar extends Component {
     super(props)
     this.state = {
       title: props.title,
-      clase: props.clase
+      icono: props.icono,
+      onclick: props.max
     }
   }
   render(){
     return (
         <div className="toolbar">
-          <i className={this.state.clase}/>
+          <i className={this.state.icono}/>
           <span className="title">{this.state.title}</span>
-          <span className="max-icon"><i className="fas fa-expand-arrows-alt"/></span>
+          <span className="max-icon"><i className="fas fa-expand-arrows-alt" onClick={this.state.onclick}/></span>
         </div>
     );
   }
