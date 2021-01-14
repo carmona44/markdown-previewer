@@ -5,7 +5,7 @@
   "homepage": "https://carmona44.github.io/markdown-previewer",
   "dependencies": {
     "gh-pages": "^2.0.1",
-    "marked": "^0.6.1",
+    "marked": "^0.7.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-scripts": "2.1.1"
